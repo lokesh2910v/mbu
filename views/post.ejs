@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://kit.fontawesome.com/8e8731510e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/templatemo-grad-school.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box; /* Ensures padding and border are included in width and height calculations */
+    }
+
+    .video-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-left: 40px;
+      margin-top: 20px; /* Adds some spacing between video entries */
+    }
+
+    .video {
+      flex: 1;
+      margin-top: 20px;
+      margin-left: 80px; /* Reduced margin to minimize space */
+
+    }
+
+    .description {
+      flex: 1; /* Keep the same width as the video */
+      margin-top: 25px; /* Small margin to separate video from description */
+      background-color: rgba(255, 255, 255, 0.9); /* White background with some transparency */
+      border-radius: 5px; /* Rounded corners for the description box */
+      padding: 10px; /* Add padding inside the box */
+      font-size: larger;
+      font-weight: bold;
+      overflow-y: auto; /* Enable scrolling if content exceeds box height */
+      max-height: 300px; /* Limit height for better layout */
+      margin-right: 80px;
+    }
+
+    .description pre {
+      margin: 10px; /* Remove extra space around preformatted text */
+      white-space: pre-wrap; /* Preserve whitespace and line breaks */
+      /* padding-top: 20px; */
+    }
+
+    .fixed-header {
+      position: fixed; /* Fixed positioning */
+      top: 0; /* Align to the top */
+      left: 0; /* Align to the left */
+      width: 100%; /* Full width */
+      background-color: #162238; /* Background color */
+      color: white; /* Text color */
+      z-index: 1000; /* Ensure it is above other content */
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 20px;
+    }
+
+    .fixed-header ul li {
+      margin-left: 25px;
+    }
+
+    .back-button {
+      background-color: #f5a425; /* Button color */
+      color: #162239; /* Text color */
+      border: none; /* No border */
+      border-radius: 2px; /* Rounded corners */
+      padding: 7px 10px; /* Padding for the button */
+      cursor: pointer; /* Cursor changes to pointer */
+      font-size: 16px; /* Font size for the button */
+      transition: background-color 0.3s; /* Transition effect */
+      margin-right: 60px;
+    }
+
+    .back-button:hover {
+      background-color: #162239; /* Darker color on hover */
+      color: #f5a425;
+    }
+
+    .logo img {
+      height: 40px;
+      width: 120px;
+    }
+
+    pre {
+      margin: 0; /* Remove default margin */
+    }
+
+    body {
+      background-image: url(/images/choosing-bg.jpg);
+      padding-left: 30px;
+      padding-right: 30px;
+      color: white;
+    }
+
+  article{
+    margin-top: 50px;
+  }
+  </style>
+</head>
+<body>
+  <header class="fixed-header">
+    <ul>
+      <li type="none">
+        <h2 style="font-size:30px; color: #f5a425;"><%= data.title %></h2>
+      </li>
+    </ul>
+    <div class="logo">
+      <img src="/images/logo.png" alt="no img">
+    </div>
+    <button class="back-button" onclick="window.history.back();">Back</button>
+  </header>
+  <h2 class="tittle"><%= data.title %></h2>
+
+  <article class="article">
+    <% 
+      // Split the body into lines instead of words to handle entire lines correctly
+      const entries = data.body.split(/\n+/); 
+    %>
+    <% entries.forEach(function(entry) { %>
+      <% if (entry.includes("youtu.be/")) { %>
+        <div class="video-container">
+          <!-- Video on the left -->
+          <div class="video">
+            <iframe width="420" height="230" 
+              src="https://www.youtube.com/embed/<%= entry.split('youtu.be/')[1].split('?')[0] %>" 
+              title="YouTube video player" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
+          </div>
+          <!-- Description on the right -->
+          <div class="description">
+            <% 
+              // Use a regex to match the description inside brackets
+              const descriptionMatch = entry.match(/\[(.*?)\]/); 
+              const description = descriptionMatch ? descriptionMatch[1].trim() : 'No description provided'; 
+            %>
+            <pre style="color: black;"><%= description %></pre>
+          </div>
+        </div>
+        <br>
+      <% } %>
+    <% }) %>
+  </article>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section social-media">
+        <div class="logo">
+          <img src="/images/logo.png" alt="no img">
+        </div>
+        <div class="follow-us" style="margin-right:30px;">
+          <h2>Follow us on </h2>
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

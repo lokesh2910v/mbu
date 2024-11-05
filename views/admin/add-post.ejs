@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Post</title>
+  <style>
+    body {
+      padding: 40px;
+      padding-top: 0;
+      background-image: url(/images/choosing-bg.jpg);
+      color: white;
+      font-size: 20px; /* Decreased font size */
+      font-family: 'Poppins', sans-serif; /* Consistent font across the page */
+    }
+    
+    a {
+      color: white;
+      text-decoration: none; /* Remove underline from links */
+      margin-bottom: 20px; /* Space below the link */
+      display: inline-block; /* Make it a block to allow margin */
+    }
+    
+    .admin-title {
+      margin-bottom: 20px; /* Space below title */
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    select,
+    textarea {
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0.7rem 0.75rem;
+      margin-bottom: 1rem;
+      font-family: inherit; /* Inherit font from body */
+      font-size: inherit; /* Inherit font size from body */
+    }
+    
+    .btn {
+      background-color: #007bff; /* Bootstrap primary color */
+      border: none;
+      color: white; 
+      padding: 12px 20px; /* Adjusted padding for smaller buttons */
+      text-decoration: none;
+      margin: 4px 2px; 
+      cursor: pointer;
+      display: inline-block; /* To maintain block layout */
+      width: 120px; /* Fixed width for uniformity */
+      transition: background-color 0.3s; /* Smooth transition */
+      font-size: 16px; /* Consistent font size for buttons */
+      text-align: center; /* Center the text */
+    }
+    
+    .btn:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    .btn-delete {
+      padding: 12px 20px; /* Match padding with other buttons */
+      background-color: #dc3545; /* Bootstrap danger color */
+    }
+
+    .btn-delete:hover {
+      background-color: #c82333; /* Darker red on hover */
+    }
+  </style>
+</head>
+<body>
+  <a href="/dashboard" class="btn">&larr; Back</a> <!-- Styled as a button -->
+  <div class="admin-title">
+    <h2 style="color: #f5a425;">Add New Course</h2>
+  </div>
+  
+  <form action="/add-post" method="POST">
+    <label for="title" style="color: #f5a425;"><b>Title</b></label><br> <br>
+    <input type="text" placeholder="Post Title" name="title" required>
+  
+    <label for="body"style="color: #f5a425;"><b>Content</b></label><br><br>
+    <textarea name="body" cols="50" rows="8" required></textarea> <!-- Adjusted row size -->
+     
+    <input type="submit" value="Add" class="btn">
+  </form>
+</body>
+</html>
+
