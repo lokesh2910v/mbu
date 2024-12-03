@@ -184,3 +184,26 @@
   z-index: 1;
   height: 100%;
   width: 100%; }
+
+ 
+  .static-txt h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #f5a425;    
+  }
+@media (max-width: 1000px) {
+  .text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    right: 90px; ;
+  }
+  .dynamic-txts li {
+    font-size: 1.5rem;
+  }
+  .team1{
+    padding-bottom: 60px;
+  }
+}

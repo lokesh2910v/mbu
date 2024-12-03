@@ -3,8 +3,14 @@ const router = express.Router();
 const Post = require('../models/Post');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
-
 router.use(bodyParser.urlencoded({ extended: true }));
+
+
+
+
+
+// GETTING HOME PAGE
+
 router.get('/', async (req, res) => {
   try {
     const locals = {
@@ -38,108 +44,46 @@ router.get('/', async (req, res) => {
   }
 });
 
-// router.get('', async (req, res) => {
-//   const locals = {
-//     title: "NodeJs Blog",
-//     description: "Simple Blog created with NodeJs, Express & MongoDb."
-//   }
-
-//   try {
-//     const data = await Post.find();
-//     res.render('index', { locals, data });
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-// });
 
 
-/**
- * GET /
- * Post :id
-*/
+
+
+// POST -PAGE
+
 router.get('/post/:id', async (req, res) => {
   try {
-    let slug = req.params.id;
-
-    const data = await Post.findById({ _id: slug });
+    const slug = req.params.id;
+    const data = await Post.findById(slug);
+    if (!data) {
+      return res.status(404).send('Post not found');
+    }
 
     const locals = {
-      title: data.title,
-      description: "",
-    }
+      title: data.title || "Post",
+      description: data.description || "Detailed post view",
+    };
 
     res.render('post', { 
       locals,
       data,
-      currentRoute: `/post/${slug}`
+      currentRoute: `/post/${slug}`,
     });
   } catch (error) {
-    console.log(error);
+    console.error('Error fetching post:', error);
+    res.status(500).send('Server Error');
   }
-
 });
 
 
-/**
- * POST /
- * Post - searchTerm
-*/
-// router.post('/search', async (req, res) => {
-//   try {
-//     const locals = {
-//       title: "Seach",
-//       description: "Simple Blog created with NodeJs, Express & MongoDb."
-//     }
-
-//     let searchTerm = req.body.searchTerm;
-//     const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "")
-
-//     const data = await Post.find({
-//       $or: [
-//         { title: { $regex: new RegExp(searchNoSpecialChar, 'i') }},
-//         { body: { $regex: new RegExp(searchNoSpecialChar, 'i') }}
-//       ]
-//     });
-
-//     res.render("search", {
-//       data,
-//       locals,
-//       currentRoute: '/'
-//     });
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-// });
 
 
-/**
- * GET /
- * About
-*/
-// router.get('/about', (req, res) => {
-//   res.render('about', {
-//     currentRoute: '/about'
-//   });
-// });
-// router.get('/', (req, res) => {
-//   res.render('home', {
-//     currentRoute: '/'
-//   });
-// });
-// router.get('/contact', (req, res) => {
-//   res.render('contact', {
-//     currentRoute: '/contact'
-//   });
-// });
 
-// Route to handle form submission
+
+// EMAIL MSG SENDING
+
 router.post('', (req, res) => {
-  const { name, email, message } = req.body; // Assuming 'phone' is not used in the form
+  const { name, email, message } = req.body; 
 
-  // Configure Nodemailer with Gmail
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -148,7 +92,7 @@ router.post('', (req, res) => {
     }
   });
 
-  // Email options
+
   const mailOptions = {
     from: email,
     to: process.env.GMAIL_USER,
@@ -160,42 +104,16 @@ router.post('', (req, res) => {
     `
   };
 
-  // Send email
-//   transporter.sendMail(mailOptions, (error, info) => {
-//     if (error) {
-//       console.log(error);
-//       return res.render("index");
-//     } else {
-//       console.log('Email sent: ' + info.response);
-//       return res.render("index");
-//     }
-//   });
 transporter.sendMail(mailOptions, (error, info) => {
   if (error) {
     console.log(error);
-    // Redirect back to the contact page with an error message
-    return res.redirect('/'); // Adjust the path as needed
+    return res.redirect('/'); 
   } else {
     console.log('Email sent: ' + info.response);
-    // Redirect back to the contact page with a success message
-    return res.redirect('/'); // Adjust the path as needed
+   
+    return res.redirect('/'); 
   }
 });
 });
-
-
-
-
-// function insertPostData () {
-//   Post.insertMany([
-//     {
-//       title: "Building APIs with Node.js",
-//       body: "Learn how to use Node.js to build RESTful APIs using frameworks like Express.js"
-//     }
-//   ])
-// }
-
-// insertPostData();
-
 
 module.exports = router;

@@ -24,7 +24,8 @@
     "method-override": "^3.0.0",
     "mongoose": "^7.0.3",
     "nodemailer": "^6.9.14",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "sanitize-html": "^2.13.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
